@@ -1,0 +1,37 @@
+server.port=8080
+
+spring.application.name=GDPRGateway
+spring.main.web-application-type=reactive
+
+eureka.instance.prefer-ip-address=true
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+
+spring.cloud.gateway.discovery.locator.enabled=true
+spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+
+# ROTTA 1: /api/auth/** ? GDPRUserService
+pring.cloud.gateway.routes[0].id=DGPRUserService
+spring.cloud.gateway.routes[0].uri=lb://GDPRUserService
+spring.cloud.gateway.routes[0].predicates[0]=Path=/api/auth/**
+spring.cloud.gateway.routes[0].filters[0]=RewritePath=/api/auth/(?<segment>.*), /api/auth/${segment}
+
+# ROTTA 2: /api/user/** ? GDPRUserService
+spring.cloud.gateway.routes[1].id=dpo
+spring.cloud.gateway.routes[1].uri=lb://GDPRUserService
+spring.cloud.gateway.routes[1].predicates[0]=Path=/api/dpo/**
+spring.cloud.gateway.routes[1].filters[0]=RewritePath=/api/dpo/(?<segment>.*), /api/dpo/${segment}
+
+# ROTTA 3: /api/anagrafica/** ? ANAGRAFICA-UTENTE (nome su Eureka!)
+spring.cloud.gateway.routes[2].id=anagrafica
+spring.cloud.gateway.routes[2].uri=lb://anagrafica-utente
+spring.cloud.gateway.routes[2].predicates[0]=Path=/api/anagrafica/**
+spring.cloud.gateway.routes[2].filters[0]=RewritePath=/api/anagrafica/(?<segment>.*), /api/anagrafica/${segment}
+
+# JWT Config
+app.jwt.secret=AnRLv2aSazie0dCbjSpITbqOE4fjPYuYkTNPrBHFzpk=
+app.jwt.expiration=3600000
+
+# Actuator (facoltativo)
+management.endpoints.web.exposure.include=health,info
