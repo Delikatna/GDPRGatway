@@ -1,3 +1,4 @@
+# Porta del Gateway
 server.port=8080
 
 spring.application.name=GDPRGateway

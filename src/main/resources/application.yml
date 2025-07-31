@@ -10,29 +10,16 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
-          lower-case-service-id: true
+          enabled: false  # DISABILITA temporaneamente
       routes:
-        - id: DGPRUserService
-          uri: lb://GDPRUserService
+        - id: auth-service
+          uri: http://localhost:8081
           predicates:
-            - Path=/api/auth/**
-          filters:
-            - RewritePath=/api/auth/(?<segment>.*), /api/auth/${segment}
-
-        - id: dpo
-          uri: lb://GDPRUserService
-          predicates:
-            - Path=/api/dpo/**
-          filters:
-            - RewritePath=/api/dpo/(?<segment>.*), /api/dpo/${segment}
-
-        - id: anagrafica
-          uri: lb://anagrafica-utente
+            - Path=/api/auth/**  # filtri RewritePath rimossi
+        - id: anagrafica-service
+          uri: http://localhost:8081
           predicates:
             - Path=/api/anagrafica/**
-          filters:
-            - RewritePath=/api/anagrafica/(?<segment>.*), /api/anagrafica/${segment}
 
 eureka:
   instance:
