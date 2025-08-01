@@ -20,7 +20,14 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/api/anagrafica/**
-
+        - id: dpo-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/dpo/**
+        - id: utente-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/utente/**
 eureka:
   instance:
     prefer-ip-address: true
