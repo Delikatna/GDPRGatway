@@ -36,6 +36,10 @@ spring:
           uri: http://localhost:8082
           predicates:
             - Path=/api/documenti/utente/**
+        - id: documenti-dati
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/documenti/dati/**
 
 eureka:
   instance:
