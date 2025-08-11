@@ -22,7 +22,8 @@ public class JwtAuthGatewayFilter implements GlobalFilter {
             "/api/auth/login",
             "/api/auth/register",
             "/api/auth/refresh",
-            "/api/anagrafica"
+            "/api/anagrafica",
+            "/api/auth/reset-password"
     );
 
     @Override
